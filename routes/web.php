@@ -17,8 +17,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CODController;
 use App\Http\Controllers\AccountController;
-use Maatwebsite\Excel\Facades\Excel;  
-use App\Http\Controllers\DiscountImportController;
+use App\Http\Controllers\ThongTinKHController;
 
 
 /*
@@ -81,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/don-dat-hang/{maDH}', [DonDatHangController::class, 'chitiet'])->name('dondathang.chitiet');
     Route::put('/don-dat-hang/{maDH}/huy', [DonDatHangController::class, 'huy'])->name('dondathang.huy');
 });
+Route::get('/dondathang', [DonDatHangController::class, 'index'])->name('dondathang.index');
 
 
 
@@ -116,7 +116,7 @@ Route::get('/giohang', [CartController::class, 'giohang'])
 
 Route::post('/giohang', [CartController::class, 'store'])
     ->middleware('auth')->name('giohang.store');
-
+    
 
     
 Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
@@ -150,6 +150,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/don-dat-hang/{maDH}/huy', [DonDatHangController::class, 'huy'])->name('dondathang.huy');
 });
 
+
+
+Route::get('/khachhang/sua', [DonDatHangController::class, 'chinhsuathongtin'])->name('khachhang.sua');
+Route::post('/khachhang/sua', [DonDatHangController::class, 'capnhatthongtin'])->name('khachhang.capnhat');
+
+Route::get('dondathang/{maDH}/danhgia/{maSP}', [DonDatHangController::class, 'hienThiFormDanhGia'])->name('dondathang.danhgia');
+Route::post('dondathang/{maDH}/danhgia/{maSP}', [DonDatHangController::class, 'luuDanhGia'])->name('dondathang.danhgia.luu');
+
+
+
 Route::get('/giohang', [CartController::class, 'giohang'])
     ->middleware('auth')->name('giohang.index');
 
@@ -158,12 +168,11 @@ Route::post('/giohang', [CartController::class, 'store'])
 // quynciii
 Route::get('store', [StoreController::class, 'index']);
 Route::get('/khachhang', [CustomerController::class, 'index'])->name('customers.index');
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/export', [CustomerController::class, 'export'])->name('customers.export');
 Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
 Route::get('/don-hang/export', [DonHangController::class, 'export'])->name('donhang.export');
+
 Route::put('/don-hang/update-trangthai/{maDH}', [DonHangController::class, 'updateTrangThai'])->name('donhang.updateTrangThai');
-Route::post('/customers/import', [CustomerController::class, 'import'])->name('customers.import');
 
 
     
@@ -172,5 +181,3 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 
 
 Route::get('/testemail',[CartController::class,'testemail']);
-
-Route::post('/import-discount', [DiscountImportController::class, 'import'])->name('discount.import');

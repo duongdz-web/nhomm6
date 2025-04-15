@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $table = 'khachhang'; // 
+    protected $table = 'khachhang'; // ✅ Đặt tên bảng đúng với database
 
-    
+    // Nếu bảng không có cột timestamps (created_at, updated_at), thêm dòng này:
     public $timestamps = false;
-
-    public function magiamgia()
-    {
-        return $this->belongsTo(Magiamgia::class, 'maGG', 'maGG');
-    }
 }

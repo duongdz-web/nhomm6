@@ -44,13 +44,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function discounts()
-{
-    return $this->belongsToMany(Discount::class, 'discounts_kh', 'maKH', 'idMaGG');
-}
 
     public function dondathangs()
 {
     return $this->hasMany(DonDatHang::class, 'maKH', 'id');
 }
+
 }

@@ -386,7 +386,7 @@ ul li a i:hover{
         <a href="{{ route('nhanvien.sanpham') }}" class="{{ request()->is('sanpham') ? 'active' : '' }}">Sản phẩm</a>
         <a href="{{ url('/khachhang') }}" class="{{ request()->is('khachhang') ? 'active' : '' }}">Khách hàng</a>
         <a href="{{ url('/don-hang') }}" class="{{ request()->is('don-hang') ? 'active' : '' }}">Đơn hàng</a>
-        <a href="{{ url('/doanhthu') }}">Báo cáo doanh thu</a>
+        <a href="#">Báo cáo doanh thu</a>
     </div>
 </div>
 
