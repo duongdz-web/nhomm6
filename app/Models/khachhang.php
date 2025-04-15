@@ -12,7 +12,7 @@ class khachhang extends Model
     protected $table = 'khachhang';
     public $timestamps = false;
     protected $fillable = [
-        'maKH',
+        'id',
         'tenKH',
         'email',
     ];

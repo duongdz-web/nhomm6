@@ -435,6 +435,40 @@
             </header>
         </div>
     </div>
+    <!-- Phần tiêu đề POCO -->
+    <div class="container-fluid p-3 poco-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 50px;">
+
+            <!-- Dropdown người dùng -->
+            <div class="relative">
+                <button id="poco-user-button"
+                    class="text-white hover:text-yellow-300 transition flex items-center gap-2">
+                    <i class="fas fa-user"></i>
+                    @auth
+                        <span class="text-sm font-medium">{{ Auth::user()->name }}</span>
+                    @else
+                        <span class="text-sm font-medium">Tài khoản</span>
+                    @endauth
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </button>
+                <div id="poco-user-dropdown"
+                    class="absolute right-0 mt-3 w-48 bg-white text-black rounded-xl shadow-lg hidden z-50">
+                    @auth
+                        <a href="" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Tài
+                            khoản</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="w-full text-left px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đăng
+                                xuất</button>
+                        </form>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Phần các tab -->
     <div class="container-fluid tab-bar">
@@ -450,6 +484,23 @@
     <main class="max-w-7xl mx-auto px-4">
         {{ $slot }}
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userBtn = document.getElementById('poco-user-button');
+            const dropdown = document.getElementById('poco-user-dropdown');
+
+            userBtn.addEventListener('click', function () {
+                dropdown.classList.toggle('hidden');
+            });
+
+            // Ẩn dropdown khi click ra ngoài
+            document.addEventListener('click', function (e) {
+                if (!userBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

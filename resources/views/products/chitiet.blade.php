@@ -12,14 +12,19 @@
                 <div class="space-y-4">
 
                     <h1 class="text-3xl font-bold text-gray-800">{{ $product->tenSP }}</h1>
-                    <div class="flex items-center mt-1  ">
-                        <p class="text-xl text-red-600 font-semibold mt-1">
-                            {{ number_format($product->giaBan, 0, ',', '.') }} đ
-                        </p>
-                        <p class="text-base text-gray-500 italic line-through mt-1 ml-3">
-                            {{ number_format($product->giaBanGoc, 0, ',', '.') }} đ
-                        </p>
-
+                    <div class="flex items-center mt-1">
+                        @if (!is_null($product->giaBan) && $product->giaBan < $product->giaBanGoc)
+                            <p class="text-xl text-red-600 font-semibold">
+                                {{ number_format($product->giaBan, 0, ',', '.') }} đ
+                            </p>
+                            <p class="text-base text-gray-500 italic line-through ml-3">
+                                {{ number_format($product->giaBanGoc, 0, ',', '.') }} đ
+                            </p>
+                        @else
+                            <p class="text-xl text-red-600 font-semibold">
+                                {{ number_format($product->giaBanGoc, 0, ',', '.') }} đ
+                            </p>
+                        @endif
                     </div>
 
                     {{-- Số lượng --}}
@@ -40,15 +45,17 @@
                             <input type="hidden" name="product_id" value="{{ Str::of($product->maSP)->trim() }}">
                             <input type="hidden" id="form-quantity" name="quantity" value="1">
 
-                            <button type="submit" class="bg-white border border-black px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition flex items-center">
-                                    <i class="fas fa-shopping-cart mr-2"></i> Thêm vào giỏ hàng
+                            <button type="submit"
+                                class="bg-white border border-black px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition flex items-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Thêm vào giỏ hàng
                             </button>
                         </form>
-                        
+
                         <form id="muahang-form" action="{{ route('dathang.show') }}" method="POST">
                             @csrf
                             <input type="hidden" id="product-data" name="products" value="">
-                            <button type="submit" class="bg-gradient-to-r from-green-300 to-blue-300 px-4 py-2 rounded-md font-medium hover:brightness-110 transition">
+                            <button type="submit"
+                                class="bg-gradient-to-r from-green-300 to-blue-300 px-4 py-2 rounded-md font-medium hover:brightness-110 transition">
                                 Mua hàng
                             </button>
                         </form>
@@ -81,16 +88,15 @@
             document.getElementById('form-quantity').value = input.value;
         }
     </script>
-<script>
-    document.getElementById('muahang-form').addEventListener('submit', function (e) {
-        const quantity = document.getElementById('quantity').value;
-        const data = [{
-            maSP: '{{ $product->maSP }}',
-            soLuong: quantity
-        }];
-        document.getElementById('product-data').value = JSON.stringify(data);
-    });
-</script>
+    <script>
+        document.getElementById('muahang-form').addEventListener('submit', function (e) {
+            const quantity = document.getElementById('quantity').value;
+            const data = [{
+                maSP: '{{ $product->maSP }}',
+                soLuong: quantity
+            }];
+            document.getElementById('product-data').value = JSON.stringify(data);
+        });
+    </script>
 
 </x-store-layout>
-

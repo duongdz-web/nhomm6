@@ -21,10 +21,4 @@ class Discount extends Model
         'dieuKienDonHangToiThieu',
         'moTaMaGiamGia',
     ];
-    public function users()
-{
-    return $this->belongsToMany(User::class, 'discounts_kh', 'idMaGG', 'maKH');
 }
-
-}
-

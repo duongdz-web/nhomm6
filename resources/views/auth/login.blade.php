@@ -2,7 +2,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-            <img src="{{ asset('banner/logo.png') }}"width='200px'>
+            <img src="{{asset('images/logo.png')}}"width='200px'>
             </a>
         </x-slot>
 
@@ -30,15 +30,6 @@
                                 type="password"
                                 name="password"
                                 required autocomplete="current-password" />
-            </div>
-
-            <!-- Phân quyền -->
-            <div class="mt-4">
-                <label for="role" class="block text-sm font-medium text-gray-700">Chọn phân quyền</label>
-                <select id="role" name="role" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                    <option value="customer">Khách hàng</option>
-                    <option value="staff">Nhân viên</option>
-                </select>
             </div>
 
             <!-- Remember Me -->

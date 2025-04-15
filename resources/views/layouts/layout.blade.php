@@ -155,15 +155,18 @@
         }
 
 
+
+
         .product-price {
             color: #ff7f7f;
             font-size: 18px;
             margin-bottom: 10px;
         }
 
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); 
+            grid-template-columns: repeat(5, 1fr);
             grid-gap: 15px;
             justify-items: center;
         }
@@ -203,12 +206,12 @@
             align-items: center;
             padding: 0;
             margin: 0;
-            justify-content: space-between; 
-            width: 100%; 
+            justify-content: space-between;
+            width: 100%;
         }
         .bar ul li {
-            flex: 1; 
-            text-align: center; 
+            flex: 1;
+            text-align: center;
         }
         .header-tabs {
             background-color: #ff4d4d; /* đỏ tươi */
@@ -216,13 +219,16 @@
             border-radius: 5px;
         }
 
+
         .header-tabs a {
             color: white !important;
         }
 
+
         .header-tabs a.active {
             border-bottom: 3px solid white;
         }
+
 
         .bar ul li a.active {
             text-decoration: underline;
@@ -230,17 +236,19 @@
         }
         .product-table {
             display: flex;
-            justify-content: center; 
-            align-items: center; 
+            justify-content: center;
+            align-items: center;
             width: 100%;
             margin: 20px auto;
         }
 
+
         .sanpham {
-            width: 90%; 
-            max-width: 1200px; 
-            border-collapse: collapse; 
+            width: 90%;
+            max-width: 1200px;
+            border-collapse: collapse;
         }
+
 
         .sanpham th, .sanpham td {
             border: 1px solid #000;
@@ -248,33 +256,36 @@
             text-align: center;
         }
 
+
         .sanpham th {
             background-color: #f2f2f2;
         }
         .filter-wrapper {
             display: flex;
             flex-direction: column;
-            align-items: center; 
+            align-items: center;
             margin-top: 20px;
         }
         .filter-comboboxes input[type="text"] {
             padding: 10px;
-            font-size: 16px; 
+            font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
             width: 200px;
             outline: none;
-            transition: all 0.3s ease-in-out; 
+            transition: all 0.3s ease-in-out;
             font-family: 'Arial', sans-serif;
         }
 
+
         .filter-comboboxes input[type="text"]::placeholder {
-            color: #c7c7c7; 
+            color: #c7c7c7;
         }
         .filter-comboboxes {
             display: flex;
             gap: 20px;
         }
+
 
         .filter-comboboxes select {
             padding: 8px;
@@ -283,13 +294,15 @@
             border: 1px solid #ccc;
         }
 
+
         .button-group {
             display: flex;
-            justify-content: flex-end; 
+            justify-content: flex-end;
             width: 100%;
             margin-top: 20px;
             max-width: 800px;
         }
+
 
         .btn {
             padding: 10px 20px;
@@ -314,6 +327,7 @@
             margin: 5px auto;
             text-align: center;
 
+
         }
         .no-products {
             text-align: center;
@@ -331,18 +345,22 @@
             color: white;
         }
 
+
         .poco-title {
             font-family: cursive;
             color: white;
         }
+
 
         .poco-user {
             color: white;
             text-decoration: none;
         }
 
+
         /* Tabs */
-        
+       
+
 
         .header-tabs {
             display: grid;
@@ -350,6 +368,7 @@
              /* đỏ theo hình */
             padding: 10px 0;
         }
+
 
         .header-tabs a {
             text-align: center;
@@ -362,19 +381,24 @@
             white-space: pre-line; /* cho phép xuống dòng như "Sản phẩm" */
         }
 
+
         .header-tabs a.active {
             border-bottom: 3px solid white;
             font-weight: bold;
         }
 
+
         .header-tabs a:hover {
             background-color: #e03e3e;
         }
 
+
     </style>
 </head>
 
+
 <body class="text-gray-800">
+
 
     <div class="bg-red-500 text-white px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex items-center">
@@ -382,6 +406,7 @@
             <img src="{{ asset('banner/duongthang.png') }}" class="w-auto h-[60px] object-contain">
             <span class="title"> NHÂN VIÊN</span>
         </div>
+
 
         {{-- Icon --}}
         <div class="flex gap-6 text-2xl relative">
@@ -403,6 +428,7 @@
         </div>
     </div>
 
+
     <div class="bg-white">
         <div class="container-fluid tab-bar">
         <div class="header-tabs mt-2">
@@ -412,8 +438,10 @@
             <a href="{{ url('/doanhthu') }}" class="{{ request()->is('doanhthu*') ? 'active' : '' }}">Báo cáo doanh thu</a>
         </div>
 
+
         </div>
     </div>
+
 
     {{-- CONTENT --}}
     <div class="container mt-4">
@@ -423,6 +451,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const userBtn = document.getElementById('user-button');
             const dropdown = document.getElementById('user-dropdown');
+
 
             if (userBtn && dropdown) {
                 userBtn.addEventListener('click', function (e) {
@@ -440,4 +469,8 @@
     </script>
 </body>
 
+
 </html>
+
+
+

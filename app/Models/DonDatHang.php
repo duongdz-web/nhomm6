@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\ChiTietDonDat;
-use Maatwebsite\Excel\Facades\Excel;  // Đảm bảo rằng bạn import đúng class này
 
 class DonDatHang extends Model
 {

@@ -63,21 +63,24 @@
                     @endforeach
                 </td>
                 <td class="p-2 border">
-                    {{ number_format($dh->tongTienThanhToan, 0, ',', '.') }} đ
+                    @foreach ($dh->chitiet as $ct)
+                        <div>{{ number_format($ct->giaBan * $ct->soLuong, 0, ',', '.') }}</div>
+                    @endforeach
                 </td>
                 <td class="p-2 border">
-                    <form action="{{ route('donhang.updateTrangThai', $dh->maDH) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <select name="tinhTrang" onchange="this.form.submit()" class="border rounded p-1 text-sm">
-                            <option value="Chờ xử lý" {{ $dh->tinhTrang == 'Chờ xử lý' ? 'selected' : '' }}>Chờ xử lý</option>
-                            <option value="Đang đóng gói" {{ $dh->tinhTrang == 'Đang đóng gói' ? 'selected' : '' }}>Đang đóng gói</option>
-                            <option value="Đang vận chuyển" {{ $dh->tinhTrang == 'Đang vận chuyển' ? 'selected' : '' }}>Đang vận chuyển</option>
-                            <option value="Đã giao" {{ $dh->tinhTrang == 'Đã giao' ? 'selected' : '' }}>Đã giao</option>
-                            <option value="Đã hủy" {{ $dh->tinhTrang == 'Đã hủy' ? 'selected' : '' }}>Đã hủy</option>
-                        </select>
-                    </form>
-                </td>
+    <form action="{{ route('donhang.updateTrangThai', $dh->maDH) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <select name="tinhTrang" onchange="this.form.submit()" class="border rounded p-1 text-sm">
+            <option value="Chờ xử lý" {{ $dh->tinhTrang == 'Chờ xử lý' ? 'selected' : '' }}>Chờ xử lý</option>
+            <option value="Đang đóng gói" {{ $dh->tinhTrang == 'Đang đóng gói' ? 'selected' : '' }}>Đang đóng gói</option>
+            <option value="Đang vận chuyển" {{ $dh->tinhTrang == 'Đang vận chuyển' ? 'selected' : '' }}>Đang vận chuyển</option>
+            <option value="Đã giao" {{ $dh->tinhTrang == 'Đã giao' ? 'selected' : '' }}>Đã giao</option>
+            <option value="Đã hủy" {{ $dh->tinhTrang == 'Đã hủy' ? 'selected' : '' }}>Đã hủy</option>
+        </select>
+    </form>
+</td>
+
             </tr>
         @endforeach
         </tbody>

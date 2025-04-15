@@ -71,7 +71,7 @@ class CODController extends Controller
             session()->forget('total_payment');
             session()->forget('selected_discount_id');
 
-            return redirect()->route('dondathang.index')->with('success', 'Đặt hàng thành công!');
+            return redirect()->route('home')->with('success', 'Đặt hàng thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('false', 'Lỗi khi đặt hàng: ' . $e->getMessage());
