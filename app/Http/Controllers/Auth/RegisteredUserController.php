@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             KhachHang::create([
                 'maKH' => $user->id,
                 'tenKH' => $request->name,
+                'email' => $request->email,
                 'gioiTinh' => $request->gioiTinh ?? null,
                 'ngaySinh' => $request->ngaySinh ?? null,
                 'diaChi' => $request->diaChi ?? null,
