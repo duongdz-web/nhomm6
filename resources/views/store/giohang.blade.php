@@ -2,195 +2,10 @@
     <x-slot name='title'>
         Giỏ hàng
     </x-slot>
-    <style>
-
-/* ===== Bảng sản phẩm ===== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-    background-color: #ffffff;
-}
-
-table thead {
-    background-color: floralwhite;
-    color: black;
-}
-
-table th,
-table td {
-    padding: 12px 15px;
-    text-align: center;
-    vertical-align: middle !important;
-    border-bottom: 1px solid #dee2e6;
-}
-
-/* Ảnh sản phẩm */
-.product-img {
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Tên sản phẩm */
-td a {
-    color: #910a0c;
-    text-decoration: none;
-    font-weight: 500;
-}
-td a:hover {
-    text-decoration: underline;
-    color: #ffbe24;
-}
-input[type="checkbox"]:checked {
-    accent-color: #910a0c;
-}
-
-/* ===== Nút tăng giảm ===== */
-.buttonCus {
-    border: none;
-    background-color: #dee2e6;
-    color: #333;
-    padding: 6px 10px;
-    margin: 0 5px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.buttonCus:hover {
-    background-color: #ced4da;
-}
-
-/* ===== Tổng tiền mỗi sản phẩm ===== */
-.total {
-    color: #28a745;
-    font-weight: bold;
-}
-
-/* ===== Nút xóa ===== */
-.buttonDel {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-.buttonDel:hover {
-    background-color: #c82333;
-}
-
-
-
-#total {
-    font-size: 22px;
-    font-weight: bold;
-    color: #28a745;
-}
-.cart-table {
-    width: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.cart-wrapper {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding-bottom: 120px; /* chừa chỗ cho footer */
-}
-
-.sticky-footer {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ffffff;
-    width: 1000px;
-    max-width: 95%;
-    padding: 15px 20px;
-    border-top: 2px solid #dee2e6;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 999;
-    gap: 20px;
-}
-.selected-products {
-    max-width: 55%;
-    overflow-x: auto;
-    font-size: 14px;
-}
-.summary-payment {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-}
-
-/* Tổng cộng */
-.total-amount {
-    font-size: 18px;
-    font-weight: bold;
-    color: #28a745;
-}
-
-#proceedToPayment {
-    padding: 10px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    background-color: #28a745;
-}
-#proceedToPayment:hover {
-    background-color: #ef4444;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    
-
-    table th, table td {
-        font-size: 13px;
-        padding: 10px 8px;
-    }
-    .sticky-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 15px;
-    }
-
-    .summary-payment {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .selected-products {
-        width: 100%;
-    }
-
-
-    #proceedToPayment {
-        width: 100%;
-        text-align: center;
-    }
-
-.cart-table td img {
-    display: block;
-    margin: 0 auto;
-}
-
-}
-
-    </style>
-    <div class="cart-wrapper container d-flex flex-column align-items-center">
-    <div class="cart-content">
-        <!-- Bảng sản phẩm -->
-        <table class="table cart-table">
+    <div class="cart-container container-fluid table-responsive">
+        <div class='row'>
+            <div class='col-8 pr-0 border'>
+                <table>
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select-all" style="width: 100%; height: 100%;"> Chọn tất cả
@@ -254,7 +69,7 @@ input[type="checkbox"]:checked {
                                 </td>
 
                                 <!-- Thành tiền -->
-                                <td class="total" style="font-size: 17px">
+                                <td class="total" style="font-size: 17pt">
                                     {{ number_format($item->thanhTien, 0, ',', '.') }} đ
                                 </td>
 
@@ -264,7 +79,7 @@ input[type="checkbox"]:checked {
                                         @csrf
                                         <input type="hidden" name="maSP" value="{{ $item->maSP }}">
                                         <button class="delete-button buttonDel" type="submit">
-                                            <span class="buttonDel__text" style="font-size: 15px;">Xóa</span>
+                                            <span class="buttonDel__text" style="font-size: 14pt;">Xóa</span>
                                         </button>
                                     </form>
                                 </td>
@@ -276,31 +91,28 @@ input[type="checkbox"]:checked {
             </div>
 
             <!-- Tổng cộng -->
+            <div class='col-4 pl-0'>
 
-            <div class="cart-footer sticky-footer">
-    <!-- Góc trái: Sản phẩm đã chọn -->
-    <div class="selected-products">
-        <strong>Sản phẩm đã chọn: <span id="selected-count">0</span></strong>
-        <ul id="product-list" style="padding-left: 16px; margin-bottom: 0;"></ul>
-    </div>
+                <div id="selected_products-list" style="margin-top: 10px;">
+                    <strong>Sản phẩm đã chọn: <span id="selected-count">0 </span></strong>
+                    <ul id="product-list" style="padding-left: 16px;"></ul>
+                </div>
 
-    <!-- Góc phải: Tổng cộng và Thanh toán -->
-    <div class="summary-payment d-flex align-items-center gap-3">
-        <div class="total-amount">
-            Tổng cộng: <span id="total">0</span> 
+                <div class="total container-fluid sticky-bottom">
+                    Tổng cộng: <span id="total">0</span> đ <br>
+                    <button id="proceedToPayment" class="btn btn-primary">Thanh toán</button>
+
+                    <!-- Form thanh toán ẩn -->
+                    <form id="paymentForm" method="POST" action="{{ route('dathang.show') }}" style="display: none;">
+                        @csrf
+                        <input type="hidden" id="hiddenTotal" name="total">
+                        <input type="hidden" id="hiddenTotalQuantity" name="totalQuantity">
+                        <input type="hidden" id="hiddenProducts" name="products">
+                    </form>
+                </div>
+            </div>
         </div>
-        <button id="proceedToPayment" class="btn btn-primary">Đặt hàng</button>
-
-        <!-- Form thanh toán ẩn -->
-        <form id="paymentForm" method="POST" action="{{ route('dathang.show') }}" style="display: none;">
-            @csrf
-            <input type="hidden" id="hiddenTotal" name="total">
-            <input type="hidden" id="hiddenTotalQuantity" name="totalQuantity">
-            <input type="hidden" id="hiddenProducts" name="products">
-        </form>
     </div>
-</div>
-
 
     <script>
 
