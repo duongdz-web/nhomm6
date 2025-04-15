@@ -169,3 +169,6 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 
 
 Route::get('/testemail',[CartController::class,'testemail']);
+
+Route::get('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
+

@@ -25,9 +25,9 @@
     {{-- HEADER --}}
     
     <div class="bg-red-500 text-white px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-  
-        <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
 
+        <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
+        
         {{-- Thanh tìm kiếm --}}
         <div class="flex gap-3 items-center justify-center w-full md:w-auto md:flex-1">
             <input 
@@ -130,13 +130,13 @@
         @endforeach
     </div>
 
-    <main>
 
-<body>
+    <main class="container mt-4">
 
-    <main class="container">
         {{ $slot }}
     </main>
+
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const userBtn = document.getElementById('user-button');

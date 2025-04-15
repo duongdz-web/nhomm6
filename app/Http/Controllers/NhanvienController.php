@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\sanpham;
 use Illuminate\Support\Facades\DB;
+
 use App\Exports\SanPhamExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\SanPhamImport;
+
+use App\Models\DonDatHang;
+
 
 class NhanvienController extends Controller
 {
@@ -102,45 +106,54 @@ class NhanvienController extends Controller
 
     public function doanhthu(Request $request)
     {
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-        $year = $request->input('year', date('Y'));
+        $startDate = $request->input('start_date');  
+        $endDate = $request->input('end_date');      
         $quarter = $request->input('quarter');
         $category = $request->input('category');
+        $year = $request->input('year');
 
-        // Base query cho tổng doanh thu và số lượng
-        $query = DB::table('chitietdondat')
-            ->join('dondathang', 'chitietdondat.maDH', '=', 'dondathang.maDH')
-            ->join('sanpham', 'chitietdondat.maSP', '=', 'sanpham.maSP');
+        // Danh sách các đơn hàng theo điều kiện lọc
+        $donHangQuery = DB::table('dondathang')
+            ->when($startDate, fn($q) => $q->whereDate('ngayLap', '>=', $startDate))
+            ->when($endDate, fn($q) => $q->whereDate('ngayLap', '<=', $endDate))
+            ->when($quarter, fn($q) => $q->whereRaw('QUARTER(ngayLap) = ?', [$quarter]))
+            ->when($year, fn($q) => $q->whereYear('ngayLap', $year));
 
-        if ($startDate) {
-            $query->whereDate('dondathang.ngayLap', '>=', $startDate);
-        }
-        if ($endDate) {
-            $query->whereDate('dondathang.ngayLap', '<=', $endDate);
-        }
+        // Lọc theo loại sản phẩm
         if ($category) {
-            $query->where('sanpham.maLoai', $category);
-        }
-        if ($quarter) {
-            $query->whereRaw('QUARTER(dondathang.ngayLap) = ?', [$quarter]);
+            $donHangQuery->whereIn('maDH', function ($sub) use ($category) {
+                $sub->select('maDH')
+                    ->from('chitietdondat')
+                    ->join('sanpham', 'chitietdondat.maSP', '=', 'sanpham.maSP')
+                    ->where('sanpham.maLoai', $category);
+            });
         }
 
-        $query->whereYear('dondathang.ngayLap', $year);
+        // Lấy danh sách mã đơn hàng thỏa điều kiện
+        $dsMaDH = $donHangQuery->pluck('maDH')->toArray();
 
-        $tongDoanhThu = $query->sum(DB::raw('chitietdondat.soLuong * chitietdondat.giaBan'));
-        $tongSoLuong = $query->sum('chitietdondat.soLuong');
+        // Tổng doanh thu từ bảng dondathang (không nhân lên)
+        $tongDoanhThu = DB::table('dondathang')
+            ->whereIn('maDH', $dsMaDH)
+            ->sum('tongTienThanhToan');
+
+        // Tổng số lượng từ bảng chitietdondat
+        $tongSoLuong = DB::table('chitietdondat')
+            ->whereIn('maDH', $dsMaDH)
+            ->sum('soLuong');
 
         // Doanh thu theo tháng
-        $doanhThuThang = (clone $query)
-            ->select(DB::raw('MONTH(dondathang.ngayLap) as thang'), DB::raw('SUM(chitietdondat.soLuong * chitietdondat.giaBan) as doanhthu'))
+        $doanhThuThang = DB::table('dondathang')
+            ->whereIn('maDH', $dsMaDH)
+            ->select(DB::raw('MONTH(ngayLap) as thang'), DB::raw('SUM(tongTienThanhToan) as doanhthu'))
             ->groupBy('thang')
             ->pluck('doanhthu', 'thang')
             ->toArray();
 
         // Doanh thu theo quý
-        $doanhThuQuy = (clone $query)
-            ->select(DB::raw('QUARTER(dondathang.ngayLap) as quy'), DB::raw('SUM(chitietdondat.soLuong * chitietdondat.giaBan) as doanhthu'))
+        $doanhThuQuy = DB::table('dondathang')
+            ->whereIn('maDH', $dsMaDH)
+            ->select(DB::raw('QUARTER(ngayLap) as quy'), DB::raw('SUM(tongTienThanhToan) as doanhthu'))
             ->groupBy('quy')
             ->pluck('doanhthu', 'quy')
             ->toArray();
@@ -155,22 +168,19 @@ class NhanvienController extends Controller
             ->when($endDate, fn($q) => $q->whereDate('dondathang.ngayLap', '<=', $endDate))
             ->when($quarter, fn($q) => $q->whereRaw('QUARTER(dondathang.ngayLap) = ?', [$quarter]))
             ->when($category, fn($q) => $q->where('sanpham.maLoai', $category))
-            ->whereYear('dondathang.ngayLap', $year)
+            ->when($year, fn($q) => $q->whereYear('dondathang.ngayLap', $year))
             ->groupBy('loaisp.tenLoai')
-            ->get()
             ->pluck('doanhthu', 'tenLoai')
-            ->toArray();
+            ->toArray();        
+        
         // Trạng thái đơn hàng
-        $trangThaiDonHang = DB::table('dondathang')
-            ->when($startDate, fn($q) => $q->whereDate('ngayLap', '>=', $startDate))
-            ->when($endDate, fn($q) => $q->whereDate('ngayLap', '<=', $endDate))
-            ->when($quarter, fn($q) => $q->whereRaw('QUARTER(ngayLap) = ?', [$quarter]))
-            ->whereYear('ngayLap', $year)
-            ->select('tinhTrang', DB::raw('COUNT(*) as soLuong'))
+        $trangThaiDonHang = DonDatHang::whereIn('maDH', $dsMaDH)
+            ->select('tinhTrang', DB::raw('count(*) as soLuong'))
             ->groupBy('tinhTrang')
             ->pluck('soLuong', 'tinhTrang')
             ->toArray();
 
+        // Lấy danh sách loại sản phẩm
         $categories = DB::table('loaisp')->get();
 
         return view('nhanvien.doanhthu', compact(

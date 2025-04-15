@@ -7,21 +7,24 @@
     {{-- Từ ngày --}}
     <div>
         <label class="block text-sm font-medium text-gray-700">Từ ngày</label>
-        <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-input mt-1 p-2 rounded border border-gray-300 w-full" />
+        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-input mt-1 p-2 rounded border border-gray-300 w-full" onchange="formatDate(this)">
     </div>
 
     {{-- Đến ngày --}}
     <div>
         <label class="block text-sm font-medium text-gray-700">Đến ngày</label>
-        <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-input mt-1 p-2 rounded border border-gray-300 w-full" />
+        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-input mt-1 p-2 rounded border border-gray-300 w-full" onchange="formatDate(this)">
     </div>
+
 
     {{-- Năm --}}
     <div>
         <label class="block text-sm font-medium text-gray-700">Năm</label>
-        <input type="number" name="year" value="{{ request('year', date('Y')) }}"
-               max="{{ date('Y') }}" min="2020"
-               class="form-input mt-1 p-2 rounded border border-gray-300 w-full" />
+        <input type="number" name="year" value="{{ request('year') }}"
+            placeholder="Nhập năm..."
+            max="{{ date('Y') }}" min="2020"
+            class="form-input mt-1 p-2 rounded border border-gray-300 w-full" />
+
     </div>
 
     {{-- Quý --}}
