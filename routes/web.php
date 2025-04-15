@@ -18,6 +18,10 @@ use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CODController;
 use App\Http\Controllers\AccountController;
 
+use App\Http\Controllers\ThongTinKHController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/don-dat-hang/{maDH}', [DonDatHangController::class, 'chitiet'])->name('dondathang.chitiet');
     Route::put('/don-dat-hang/{maDH}/huy', [DonDatHangController::class, 'huy'])->name('dondathang.huy');
 });
+Route::get('/dondathang', [DonDatHangController::class, 'index'])->name('dondathang.index');
 
 
 
@@ -114,7 +119,7 @@ Route::get('/giohang', [CartController::class, 'giohang'])
 
 Route::post('/giohang', [CartController::class, 'store'])
     ->middleware('auth')->name('giohang.store');
-
+    
 
     
 Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
@@ -148,6 +153,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/don-dat-hang/{maDH}/huy', [DonDatHangController::class, 'huy'])->name('dondathang.huy');
 });
 
+
+
+Route::get('/khachhang/sua', [DonDatHangController::class, 'chinhsuathongtin'])->name('khachhang.sua');
+Route::post('/khachhang/sua', [DonDatHangController::class, 'capnhatthongtin'])->name('khachhang.capnhat');
+
+Route::get('dondathang/{maDH}/danhgia/{maSP}', [DonDatHangController::class, 'hienThiFormDanhGia'])->name('dondathang.danhgia');
+Route::post('dondathang/{maDH}/danhgia/{maSP}', [DonDatHangController::class, 'luuDanhGia'])->name('dondathang.danhgia.luu');
+
+
+
 Route::get('/giohang', [CartController::class, 'giohang'])
     ->middleware('auth')->name('giohang.index');
 
@@ -170,5 +185,7 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 
 Route::get('/testemail',[CartController::class,'testemail']);
 
+
 Route::get('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
+
 

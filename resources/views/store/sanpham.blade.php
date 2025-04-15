@@ -14,6 +14,7 @@
 </style>
 <h1><center>QUẢN LÝ SẢN PHẨM</center></h1>
 
+
 <form action="{{ route('nhanvien.sanpham.import') }}" method="POST" enctype="multipart/form-data" class="d-inline-block" style="margin-left:10px;">
         @csrf
         <input type="file" name="file" class="form-control-file d-inline" style="width:200px;" required>
@@ -24,6 +25,7 @@
             <i class="fa fa-file-excel"></i> Xuất Excel
         </a>
     </form>
+
 
 
 <div class="mb-2 text-end">

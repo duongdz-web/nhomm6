@@ -47,6 +47,7 @@ class User extends Authenticatable
     public $incrementing = false; // id không phải số tự tăng
     protected $keyType = 'string'; // id là kiểu chuỗi
 
+
     public function dondathangs()
 {
     return $this->hasMany(DonDatHang::class, 'maKH', 'id');
