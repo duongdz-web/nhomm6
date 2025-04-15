@@ -17,7 +17,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CODController;
 use App\Http\Controllers\AccountController;
-
+use App\Http\Controllers\DiscountImportController;
 use App\Http\Controllers\ThongTinKHController;
 
 
@@ -188,4 +188,4 @@ Route::get('/testemail',[CartController::class,'testemail']);
 
 Route::get('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
 
-
+Route::post('/import-discount', [DiscountImportController::class, 'import'])->name('discount.import');

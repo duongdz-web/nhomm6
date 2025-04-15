@@ -2,6 +2,20 @@
 
     {{-- Sản phẩm nổi bật --}}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: '{{ session("success") }}',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        </script>
+    @endif
+
     @foreach ($products as $product)
         <a href="{{ route('products.chitiet', ['maSP' => $product->maSP]) }}">
             <div class="bg-white border rounded-md shadow hover:shadow-lg transition duration-300">

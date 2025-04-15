@@ -56,7 +56,7 @@
                         <a href="{{ route('register') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đăng ký</a>
                     @endguest
                     @auth
-                        <a href="{{ route('account') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Tài khoản</a>
+                        <a href="{{ route('khachhang.sua') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Tài khoản</a>
                         <a href="{{ route('dondathang.index') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đơn hàng của tôi</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

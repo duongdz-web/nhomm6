@@ -60,11 +60,7 @@
                 <div class="w-full sm:w-[22rem] bg-white rounded-xl shadow hover:shadow-md border border-gray-100 p-4 flex flex-col gap-4">
                     {{-- Ảnh sản phẩm --}}
                     <div class="w-full h-40 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
-                        @if($spDaiDien && $spDaiDien->hinh)
-                            <img src="{{ asset('storage/' . $spDaiDien->hinh) }}" class="object-cover w-full h-full">
-                        @else
-                            <span class="text-gray-400 text-sm">Không có ảnh</span>
-                        @endif
+                    <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
                     </div>
 
                     {{-- Nội dung đơn --}}

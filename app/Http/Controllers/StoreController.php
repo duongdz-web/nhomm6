@@ -64,17 +64,7 @@ class StoreController extends Controller
         return view('products.chitiet', compact('product'));
 
     }
-    public function sanphamlist(){
-        $data = DB::table("sanpham")->get();
-        return view("store.sanpham_list",compact("data"));
-    }
-
-    public function sanphamcreate()
-    {
-        $the_loai = DB::table("dm_the_loai")->get();
-        $action = "add";
-        return view("store.sanpham_form",compact("the_loai","action"));
-    }   
+      
 }
 
 

@@ -66,7 +66,7 @@ class DonDatHangController extends Controller
 public function chinhsuathongtin()
 {
     $user = Auth::user();
-    $khachhang = ThongTinKH::where('maKH', $user->id)->firstOrFail();
+    $khachhang = ThongTinKH::where('id', $user->id)->firstOrFail();
 
     return view('dondathang.sua', compact('khachhang'));
 }
@@ -82,7 +82,7 @@ public function capnhatthongtin(Request $request)
     ]);
 
     $user = Auth::user();
-    $khachhang = ThongTinKH::where('maKH', $user->id)->firstOrFail();
+    $khachhang = ThongTinKH::where('id', $user->id)->firstOrFail();
 
     $khachhang->update($request->only(['tenKH', 'gioiTinh', 'ngaySinh', 'diaChi', 'soDienThoai']));
 

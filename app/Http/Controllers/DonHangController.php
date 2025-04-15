@@ -11,7 +11,7 @@ class DonHangController extends Controller
     public function index(Request $request)
     {
         $query = DB::table('dondathang')
-            ->join('khachhang', 'dondathang.maKH', '=', 'khachhang.maKH')
+            ->join('khachhang', 'dondathang.maKH', '=', 'khachhang.id')
             ->select(
                 'dondathang.*',
                 'khachhang.tenKH',

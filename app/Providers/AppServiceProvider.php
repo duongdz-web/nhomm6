@@ -41,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
         ]);
         //
         Schema::defaultStringLength(191);
+        DonDatHang::observe(DonDatHangObserver::class);
+
     }
 
 }
