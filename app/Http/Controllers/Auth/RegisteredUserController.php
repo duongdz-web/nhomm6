@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
         ]);
 
 
+
         DB::transaction(function () use ($request) {
             // Tạo user mới
             $user = User::create([
@@ -71,6 +72,7 @@ class RegisteredUserController extends Controller
 
         // Lưu vào bảng khachhang
         KhachHang::create([
+
 
             'tenKH' => $request->name,
             'email' => $request->email,

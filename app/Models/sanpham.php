@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class sanpham extends Model
 {
     use HasFactory;
@@ -19,3 +20,6 @@ class sanpham extends Model
         'giaBan', 'ngayNhap', 'donVi', 'maLoai', 'hinhanh'
     ];
 }
+
+
+

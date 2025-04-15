@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $title }}</title>
+
+    {{-- Sử dụng CDN Tailwind và FontAwesome --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -21,7 +23,9 @@
 <body class="bg-white text-gray-800">
 
     {{-- HEADER --}}
+    
     <div class="bg-red-500 text-white px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+
         <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
         
         {{-- Thanh tìm kiếm --}}
@@ -33,40 +37,99 @@
                 placeholder="Bạn tìm kiếm gì hôm nay?" 
                 class="px-4 py-2 w-[400px] rounded-md border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-200 text-gray-800"
             >
+            
             <form id="searchForm" action="{{ route('products.search') }}" method="GET">
                 <button type="submit" class="bg-yellow-400 px-5 py-2 rounded-md text-black font-semibold text-sm hover:bg-yellow-500 transition">
-                    Tìm kiếm
+                     Tìm kiếm
                 </button>
             </form>
         </div>
 
+     
         {{-- Icon --}}
         <div class="flex gap-6 text-2xl relative">
-            <a href="/" class="text-white hover:text-yellow-200 transition"><i class="fas fa-home"></i></a>
-            <a href="{{ route('giohang.index') }}" class="text-white hover:text-yellow-200 transition"><i class="fas fa-shopping-cart"></i></a>
+            <a href="/" class="text-white hover:text-yellow-200 transition">
+                <i class="fas fa-home"></i>
+            </a>
 
+            <a href="{{ route('giohang.index') }}" class="text-white hover:text-yellow-200 transition">
+
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+
+            {{-- Nút User --}}
             <div class="relative">
                 <button id="user-button" class="text-white hover:text-yellow-300 transition flex items-center gap-2">
                     <i class="fas fa-user"></i>
-                    @auth <span class="text-sm font-medium">{{ Auth::user()->name }}</span> @endauth
+                    @auth
+                        @if(Auth::user()->role === 'customer')
+                            <span class="text-sm font-medium">{{ Auth::user()->name }}</span>
+                        @endif
+                    @endauth
                 </button>
+
+                {{-- Dropdown --}}
                 <div id="user-dropdown" class="absolute right-0 mt-3 w-48 bg-white text-black rounded-xl shadow-lg hidden z-50">
                     @guest
-                        <a href="{{ route('login') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đăng nhập</a>
-                        <a href="{{ route('register') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đăng ký</a>
+                        <a href="{{ route('login') }}"
+                        class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition rounded-t-xl">
+                            Đăng nhập
+                        </a>
+                        <a href="{{ route('register') }}"
+                        class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">
+                            Đăng ký
+                        </a>
                     @endguest
+
                     @auth
-                        <a href="{{ route('account') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Tài khoản</a>
-                        <a href="{{ route('dondathang.index') }}" class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đơn hàng của tôi</a>
+                        <a href="#"
+                        class="block px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition rounded-t-xl">
+                            Tài khoản
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition">Đăng xuất</button>
+                            <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm hover:bg-yellow-100 hover:text-yellow-700 transition rounded-b-xl">
+                                Đăng xuất
+                            </button>
                         </form>
                     @endauth
                 </div>
             </div>
+
+
         </div>
+
     </div>
+
+    {{-- Banner --}}
+    <div class="w-full">
+        <img src="{{ asset('banner/1.png') }}" alt="Banner" class="w-full h-[450px] object-cover rounded-none shadow-md">
+    </div>
+
+    {{-- Danh mục --}}
+    <div class="grid grid-cols-4 md:grid-cols-8 gap-6 bg-red-600 py-4 text-white font-semibold shadow-md">
+        @php
+            $categories = [
+                ['icon' => 'fa-utensils', 'label' => 'Đồ ăn', 'code' => 'LS0001'],
+                ['icon' => 'fa-coffee', 'label' => 'Đồ uống', 'code' => 'LS0002'],
+                ['icon' => 'fa-couch', 'label' => 'Tiện ích gia đình', 'code' => 'LS0003'],
+                ['icon' => 'fa-box', 'label' => 'Hàng gia dụng', 'code' => 'LS0004'],
+                ['icon' => 'fa-pencil-alt', 'label' => 'Văn phòng phẩm', 'code' => 'LS0005'],
+                ['icon' => 'fa-gamepad', 'label' => 'Đồ chơi', 'code' => 'LS0006'],
+                ['icon' => 'fa-magic', 'label' => 'Sản phẩm làm đẹp', 'code' => 'LS0007'],
+                ['icon' => 'fa-boxes', 'label' => 'Thực phẩm đóng hộp', 'code' => 'LS0008'],
+            ];
+        @endphp
+
+        @foreach ($categories as $cat)
+            <a href="{{ route('category.show', ['maLoai' => $cat['code']]) }}" class="flex flex-col items-center justify-center hover:text-yellow-200 transition duration-200">
+                <i class="fas {{ $cat['icon'] }} text-3xl mb-2"></i>
+                <span class="text-base text-center">{{ $cat['label'] }}</span>
+            </a>
+        @endforeach
+    </div>
+
 
     <main class="container mt-4">
 
@@ -75,23 +138,30 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const userBtn = document.getElementById('user-button');
-            const dropdown = document.getElementById('user-dropdown');
+    document.addEventListener('DOMContentLoaded', function () {
+        const userBtn = document.getElementById('user-button');
+        const dropdown = document.getElementById('user-dropdown');
 
-            if (userBtn && dropdown) {
-                userBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('hidden');
-                });
-                document.addEventListener('click', function () {
-                    dropdown.classList.add('hidden');
-                });
-                dropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-            }
-        });
-    </script>
+        if (userBtn && dropdown) {
+            userBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
+
+            // Khi bấm ra ngoài dropdown thì ẩn dropdown đi
+            document.addEventListener('click', function () {
+                dropdown.classList.add('hidden');
+            });
+
+            // Ngăn dropdown bị ẩn khi click vào trong nó
+            dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    });
+</script>
+
+
+
 </body>
 </html>

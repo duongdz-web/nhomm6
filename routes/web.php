@@ -56,8 +56,9 @@ Route::put('/nhanvien/sanpham/{id}', [NhanvienController::class, 'update'])->nam
 Route::put('/nhanvien/sanpham/update/{maSP}', [NhanvienController::class, 'update'])->name('nhanvien.sanpham.update');
 Route::get('/nhanvien/sanpham/create', [NhanvienController::class, 'create'])->name('nhanvien.sanpham.create');
 Route::post('/nhanvien/sanpham/store', [NhanvienController::class, 'store'])->name('nhanvien.sanpham.store');
-//nyan
-//đăng nhập, đăng ký
+//nyan-xuất excel, nhập excel
+Route::get('/nhanvien/sanpham/export', [NhanvienController::class, 'export'])->name('nhanvien.sanpham.export');
+Route::post('/nhanvien/sanpham/import', [NhanvienController::class, 'import'])->name('nhanvien.sanpham.import');
 
 Route::post('/cod-order', [CODController::class, 'processCOD'])->name('cod.order');
 Route::post('/vnpay/create', [VnpayController::class, 'createPayment'])->name('vnpay.create');
@@ -170,3 +171,4 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 Route::get('/testemail',[CartController::class,'testemail']);
 
 Route::get('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
+

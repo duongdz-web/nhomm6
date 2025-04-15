@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+
 use App\Models\DonDatHang;
 use App\Observers\DonDatHangObserver;
 use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot():void
+    public function boot()
     {
         View::share('categories', [
             ['icon' => 'fa-utensils', 'label' => 'Đồ ăn', 'code' => 'LS0001'],
@@ -39,7 +41,6 @@ class AppServiceProvider extends ServiceProvider
         ]);
         //
         Schema::defaultStringLength(191);
-        DonDatHang::observe(DonDatHangObserver::class);
     }
 
 }
