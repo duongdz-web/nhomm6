@@ -45,34 +45,15 @@ class RegisteredUserController extends Controller
             'soDienThoai' => ['nullable', 'string', 'max:15'],
         ]);
 
-
-
-        DB::transaction(function () use ($request) {
-            // Tạo user mới
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-
-            // Lưu vào bảng khachhang
-            KhachHang::create([
-                'maKH' => $user->id,
-                'tenKH' => $request->name,
-                'email' => $request->email,
-                'gioiTinh' => $request->gioiTinh ?? null,
-                'ngaySinh' => $request->ngaySinh ?? null,
-                'diaChi' => $request->diaChi ?? null,
-                'soDienThoai' => $request->soDienThoai ?? null,
-            ]);
-
-            // Gán mã giảm giá cho khách hàng mới
-            $discountIds = Discount::pluck('idMaGG')->toArray();
-
+        // Lưu vào bảng users
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
         // Lưu vào bảng khachhang
         KhachHang::create([
-
 
             'tenKH' => $request->name,
             'email' => $request->email,
