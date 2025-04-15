@@ -17,9 +17,6 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CODController;
 use App\Http\Controllers\AccountController;
-use Maatwebsite\Excel\Facades\Excel;  
-use App\Http\Controllers\DiscountImportController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -59,8 +56,9 @@ Route::put('/nhanvien/sanpham/{id}', [NhanvienController::class, 'update'])->nam
 Route::put('/nhanvien/sanpham/update/{maSP}', [NhanvienController::class, 'update'])->name('nhanvien.sanpham.update');
 Route::get('/nhanvien/sanpham/create', [NhanvienController::class, 'create'])->name('nhanvien.sanpham.create');
 Route::post('/nhanvien/sanpham/store', [NhanvienController::class, 'store'])->name('nhanvien.sanpham.store');
-//nyan
-//đăng nhập, đăng ký
+//nyan-xuất excel, nhập excel
+Route::get('/nhanvien/sanpham/export', [NhanvienController::class, 'export'])->name('nhanvien.sanpham.export');
+Route::post('/nhanvien/sanpham/import', [NhanvienController::class, 'import'])->name('nhanvien.sanpham.import');
 
 Route::post('/cod-order', [CODController::class, 'processCOD'])->name('cod.order');
 Route::post('/vnpay/create', [VnpayController::class, 'createPayment'])->name('vnpay.create');
@@ -158,12 +156,11 @@ Route::post('/giohang', [CartController::class, 'store'])
 // quynciii
 Route::get('store', [StoreController::class, 'index']);
 Route::get('/khachhang', [CustomerController::class, 'index'])->name('customers.index');
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/export', [CustomerController::class, 'export'])->name('customers.export');
 Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
 Route::get('/don-hang/export', [DonHangController::class, 'export'])->name('donhang.export');
+
 Route::put('/don-hang/update-trangthai/{maDH}', [DonHangController::class, 'updateTrangThai'])->name('donhang.updateTrangThai');
-Route::post('/customers/import', [CustomerController::class, 'import'])->name('customers.import');
 
 
     
@@ -172,5 +169,3 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 
 
 Route::get('/testemail',[CartController::class,'testemail']);
-
-Route::post('/import-discount', [DiscountImportController::class, 'import'])->name('discount.import');

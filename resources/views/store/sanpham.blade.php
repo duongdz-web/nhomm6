@@ -1,4 +1,4 @@
-@extends("layouts.layout")
+@extends("layouts.nhanvien-layout")
 @section("title","Sản phẩm")
 @section("content")
 
@@ -12,6 +12,18 @@
         border: 1px solid #000 !important;
     }
 </style>
+<h1><center>QUẢN LÝ SẢN PHẨM</center></h1>
+<form action="{{ route('nhanvien.sanpham.import') }}" method="POST" enctype="multipart/form-data" class="d-inline-block" style="margin-left:10px;">
+        @csrf
+        <input type="file" name="file" class="form-control-file d-inline" style="width:200px;" required>
+        <button type="submit" class="btn btn-info">
+            <i class="fa fa-upload"></i> Tải lên Excel
+        </button>
+        <a href="{{ route('nhanvien.sanpham.export') }}" class="btn btn-primary">
+            <i class="fa fa-file-excel"></i> Xuất Excel
+        </a>
+    </form>
+
 <div class="mb-2 text-end">
     <a href="{{ route('nhanvien.sanpham.create') }}" class="btn btn-success">
         <i></i> Thêm sản phẩm

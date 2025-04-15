@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\sanpham;
 use Illuminate\Support\Facades\DB;
+use App\Exports\SanPhamExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SanPhamImport;
 
 class NhanvienController extends Controller
 {
@@ -175,4 +178,19 @@ class NhanvienController extends Controller
             'doanhThuThang', 'doanhThuQuy', 'doanhThuLoai', 'trangThaiDonHang', 'categories'
         ));
     }
+        public function export()
+        {
+            return Excel::download(new SanPhamExport, 'sanpham.xlsx');
+        }
+        
+            public function import(Request $request)
+        {
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls,csv'
+            ]);
+
+            Excel::import(new SanPhamImport, $request->file('file'));
+
+            return redirect()->route('nhanvien.sanpham')->with('success', 'Import sản phẩm thành công!');
+        }
 }
