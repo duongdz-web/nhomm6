@@ -4,71 +4,68 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Discount;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\khachhang;
 use Illuminate\Http\RedirectResponse;
 
+
 class RegisteredUserController extends Controller
 {
+    /**
+     * Display the registration view.
+     *
+     * @return \Illuminate\View\View
+     */
+
+
     public function create()
     {
         return view('auth.register');
     }
 
+    /**
+     * Handle an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'gioiTinh' => ['nullable'],
             'ngaySinh' => ['nullable', 'date'],
             'diaChi' => ['nullable', 'string', 'max:255'],
             'soDienThoai' => ['nullable', 'string', 'max:15'],
         ]);
 
-        DB::transaction(function () use ($request) {
-            // Tạo user mới
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+        // Lưu vào bảng users
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-            // Lưu vào bảng khachhang
-            KhachHang::create([
-                'maKH' => $user->id,
-                'tenKH' => $request->name,
-                'gioiTinh' => $request->gioiTinh ?? null,
-                'ngaySinh' => $request->ngaySinh ?? null,
-                'diaChi' => $request->diaChi ?? null,
-                'soDienThoai' => $request->soDienThoai ?? null,
-            ]);
+        // Lưu vào bảng khachhang
+        KhachHang::create([
 
-            // Gán mã giảm giá cho khách hàng mới
-            $discountIds = Discount::pluck('idMaGG')->toArray();
+            'tenKH' => $request->name,
+            'email' => $request->email,
+            'gioiTinh' => $request->gioiTinh ?? null,  // Nếu có thêm trong form
+            'ngaySinh' => $request->ngaySinh ?? null,
+            'diaChi' => $request->diaChi ?? null,
+            'soDienThoai' => $request->soDienThoai ?? null,
+        ]);
 
-            $data = [];
-            foreach ($discountIds as $idMaGG) {
-                $data[] = [
-                    'idMaGG' => $idMaGG,
-                    'maKH' => $user->id,
-                ];
-            }
-
-            DB::table('discounts_kh')->insert($data);
-
-            event(new Registered($user));
-            Auth::login($user);
-        });
+        Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }
+
 }

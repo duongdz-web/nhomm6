@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 class sanpham extends Model
 {
-
     use HasFactory;
 
     protected $table = 'sanpham';
@@ -18,6 +17,5 @@ class sanpham extends Model
     protected $fillable = [
         'maSP', 'tenSP', 'moTa', 'soLuongTonKho', 'giaNhap',
         'giaBan', 'ngayNhap', 'donVi', 'maLoai', 'hinhanh'
-
     ];
 }

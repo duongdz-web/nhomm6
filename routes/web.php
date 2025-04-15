@@ -17,9 +17,6 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CODController;
 use App\Http\Controllers\AccountController;
-use Maatwebsite\Excel\Facades\Excel;  
-use App\Http\Controllers\DiscountImportController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -158,12 +155,11 @@ Route::post('/giohang', [CartController::class, 'store'])
 // quynciii
 Route::get('store', [StoreController::class, 'index']);
 Route::get('/khachhang', [CustomerController::class, 'index'])->name('customers.index');
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/export', [CustomerController::class, 'export'])->name('customers.export');
 Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
 Route::get('/don-hang/export', [DonHangController::class, 'export'])->name('donhang.export');
+
 Route::put('/don-hang/update-trangthai/{maDH}', [DonHangController::class, 'updateTrangThai'])->name('donhang.updateTrangThai');
-Route::post('/customers/import', [CustomerController::class, 'import'])->name('customers.import');
 
 
     
@@ -173,4 +169,4 @@ Route::get('/nhanvien', [NhanvienController::class, 'sanpham']);
 
 Route::get('/testemail',[CartController::class,'testemail']);
 
-Route::post('/import-discount', [DiscountImportController::class, 'import'])->name('discount.import');
+Route::get('/products/sort', [ProductController::class, 'sort'])->name('products.sort');

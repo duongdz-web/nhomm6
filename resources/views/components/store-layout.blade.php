@@ -15,10 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; }
-        .title_order{
-            font-size: 40px;
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -26,18 +22,9 @@
 
     {{-- HEADER --}}
     <div class="bg-red-500 text-white px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        @if (request()->routeIs('dathang.show'))
-            <div class="flex items-center">
-                <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
-                <img src="{{ asset('banner/duongthang.png') }}" class="w-auto h-[60px] object-contain">
-                <span class="title_order"> ĐẶT HÀNG</span>
-            </div>
-        @else
-            <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
-        @endif
+        <img src="{{ asset('banner/logo.png') }}" alt="Banner" class="w-auto h-[60px] object-contain">
         
         {{-- Thanh tìm kiếm --}}
-        @unless (request()->routeIs('dathang.show'))
         <div class="flex gap-3 items-center justify-center w-full md:w-auto md:flex-1">
             <input 
                 type="text" 
@@ -52,7 +39,6 @@
                 </button>
             </form>
         </div>
-        @endunless
 
         {{-- Icon --}}
         <div class="flex gap-6 text-2xl relative">
@@ -82,9 +68,11 @@
         </div>
     </div>
 
-    <main class="">
+    <main class="container mt-4">
+
         {{ $slot }}
     </main>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

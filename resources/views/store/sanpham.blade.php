@@ -1,4 +1,4 @@
-@extends("layouts.layout")
+@extends("layouts.nhanvien-layout")
 @section("title","Sản phẩm")
 @section("content")
 
@@ -12,6 +12,7 @@
         border: 1px solid #000 !important;
     }
 </style>
+<h1><center>QUẢN LÝ SẢN PHẨM</center></h1>
 <div class="mb-2 text-end">
     <a href="{{ route('nhanvien.sanpham.create') }}" class="btn btn-success">
         <i></i> Thêm sản phẩm
