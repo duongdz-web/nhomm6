@@ -101,34 +101,6 @@
 
     </div>
 
-    {{-- Banner --}}
-    <div class="w-full">
-        <img src="{{ asset('banner/1.png') }}" alt="Banner" class="w-full h-[450px] object-cover rounded-none shadow-md">
-    </div>
-
-    {{-- Danh mục --}}
-    <div class="grid grid-cols-4 md:grid-cols-8 gap-6 bg-red-600 py-4 text-white font-semibold shadow-md">
-        @php
-            $categories = [
-                ['icon' => 'fa-utensils', 'label' => 'Đồ ăn', 'code' => 'LS0001'],
-                ['icon' => 'fa-coffee', 'label' => 'Đồ uống', 'code' => 'LS0002'],
-                ['icon' => 'fa-couch', 'label' => 'Tiện ích gia đình', 'code' => 'LS0003'],
-                ['icon' => 'fa-box', 'label' => 'Hàng gia dụng', 'code' => 'LS0004'],
-                ['icon' => 'fa-pencil-alt', 'label' => 'Văn phòng phẩm', 'code' => 'LS0005'],
-                ['icon' => 'fa-gamepad', 'label' => 'Đồ chơi', 'code' => 'LS0006'],
-                ['icon' => 'fa-magic', 'label' => 'Sản phẩm làm đẹp', 'code' => 'LS0007'],
-                ['icon' => 'fa-boxes', 'label' => 'Thực phẩm đóng hộp', 'code' => 'LS0008'],
-            ];
-        @endphp
-
-        @foreach ($categories as $cat)
-            <a href="{{ route('category.show', ['maLoai' => $cat['code']]) }}" class="flex flex-col items-center justify-center hover:text-yellow-200 transition duration-200">
-                <i class="fas {{ $cat['icon'] }} text-3xl mb-2"></i>
-                <span class="text-base text-center">{{ $cat['label'] }}</span>
-            </a>
-        @endforeach
-    </div>
-
 
     <main class="container mt-4">
 

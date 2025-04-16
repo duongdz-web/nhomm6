@@ -1,4 +1,6 @@
-<x-nhanvien-layout>
+@extends('layouts.layout')
+
+@section('content')
 <div class="p-4 bg-white min-h-screen">
     <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">BÁO CÁO DOANH THU</h1>
 
@@ -179,4 +181,4 @@
         });
     </script>
 </div>
-</x-nhanvien-layout>
+@endsection

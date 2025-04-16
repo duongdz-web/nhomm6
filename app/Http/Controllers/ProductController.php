@@ -9,7 +9,8 @@ class ProductController extends Controller
 {
     public function show($maSP)
     {
-        $product = Product::where('maSP', $maSP)->firstOrFail();
+        $product = Product::with('danhgias')->where('maSP', $maSP)->firstOrFail();
+
         return view('products.chitiet', compact('product'));
     }
     public function search(Request $request)

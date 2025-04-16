@@ -383,10 +383,10 @@ ul li a i:hover{
 <!-- Phần các tab -->
 <div class="container-fluid tab-bar">
     <div class="header-tabs mt-2">
-        <a href="{{ route('nhanvien.sanpham') }}" class="{{ request()->is('sanpham') ? 'active' : '' }}">Sản phẩm</a>
+        <a href="{{ url('/sanpham') }}" class="{{ request()->is('sanpham') ? 'active' : '' }}">Sản phẩm</a>
         <a href="{{ url('/khachhang') }}" class="{{ request()->is('khachhang') ? 'active' : '' }}">Khách hàng</a>
         <a href="{{ url('/don-hang') }}" class="{{ request()->is('don-hang') ? 'active' : '' }}">Đơn hàng</a>
-        <a href="#">Báo cáo doanh thu</a>
+        <a href="{{ url('/doanhthu') }}">Báo cáo doanh thu</a>
     </div>
 </div>
 

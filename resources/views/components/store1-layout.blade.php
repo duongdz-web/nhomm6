@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -104,7 +105,7 @@
                 <!-- Lọc theo khoảng giá -->
                 <div class="mb-4">
                     <h3 class="text-sm font-semibold mb-2">Khoảng giá (VNĐ)</h3>
-                    <form action="{{ route('products.sort') }}" method="GET" class="space-y-2">
+                    <form action="{{ route('products.sort') }}" method="GET" class="space-y-2" id="price-filter-form">
                         <div class="flex gap-2">
                             <input 
                                 type="number" 
@@ -128,7 +129,7 @@
                 </div>
 
                 <!-- Lọc theo đánh giá -->
-                <form action="{{ route('home') }}" method="GET">
+                <form action="{{ route('home') }}" method="GET" id="rating-filter-form">
                     <div>
                         <h3 class="text-sm font-semibold mb-2">Đánh giá tối thiểu</h3>
                         <div class="space-y-2">
@@ -155,7 +156,7 @@
                 </form>
 
                 <!-- Dịch vụ & Khuyến mãi -->
-                <form action="{{ route('home') }}" method="GET">
+                <form action="{{ route('home') }}" method="GET" id="promotion-filter-form">
                     <div>
                         <h3 class="text-sm font-semibold mb-2">Dịch vụ & Khuyến mãi</h3>
                         <div class="space-y-2">
@@ -208,8 +209,6 @@
                 <a href="{{ route('home') }}" class="block w-full mt-2 bg-gray-500 text-white py-2 rounded-md text-center hover:bg-gray-600 text-sm">
                     Xóa bộ lọc
                 </a>
-
-
             </aside>
 
             <!-- Cột phải: Sản phẩm -->
@@ -238,6 +237,44 @@
                     e.stopPropagation();
                 });
             }
+        });
+    </script>
+    <script>
+        // Lắng nghe sự kiện thay đổi của các form và chỉ gửi yêu cầu khi nhấn nút "Áp dụng"
+        document.getElementById('price-filter-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let urlParams = new URLSearchParams(window.location.search);
+
+            // Lấy giá trị khoảng giá từ form
+            const priceMin = document.querySelector('[name="price_min"]').value;
+            const priceMax = document.querySelector('[name="price_max"]').value;
+
+            // Cập nhật tham số khoảng giá vào URL
+            if (priceMin) urlParams.set('price_min', priceMin);
+            if (priceMax) urlParams.set('price_max', priceMax);
+
+            // Lấy các tham số khác từ form (đánh giá sao và dịch vụ khuyến mãi)
+            document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(function(input) {
+                urlParams.append(input.name, input.value);
+            });
+
+            // Cập nhật lại URL và tải lại trang với các bộ lọc
+            window.location.search = urlParams.toString();
+        });
+
+        // Lắng nghe sự kiện thay đổi cho các form khác (đánh giá sao, dịch vụ khuyến mãi)
+        document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function(input) {
+            input.addEventListener('change', function() {
+                let urlParams = new URLSearchParams(window.location.search);
+                
+                // Lấy các tham số đánh giá và khuyến mãi đã chọn
+                document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(function(input) {
+                    urlParams.append(input.name, input.value);
+                });
+
+                // Cập nhật URL và tải lại trang
+                window.location.search = urlParams.toString();
+            });
         });
     </script>
 </body>
