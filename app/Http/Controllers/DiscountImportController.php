@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 class DiscountImportController extends Controller
 {
 
-    
 
     public function import(Request $request)
     {

@@ -16,10 +16,10 @@ class CustomerController extends Controller
     
         // Truy vấn lấy danh sách khách hàng
         $query = DB::table('khachhang as kh')
-            ->leftJoin('dondathang as dh', 'kh.maKH', '=', 'dh.maKH')
+            ->leftJoin('dondathang as dh', 'kh.id', '=', 'dh.maKH')
             ->leftJoin('chitietdondat as ct', 'dh.maDH', '=', 'ct.maDH')
             ->select(
-                'kh.maKH',
+                'kh.id',
                 'kh.tenKH',
                 'kh.diemTichLuy',
                 DB::raw('MAX(dh.ngayLap) as last_order_date'),
@@ -27,11 +27,11 @@ class CustomerController extends Controller
                 DB::raw('SUM(ct.soLuong) as tong_soluong'),
                 DB::raw('SUM(ct.giaBan) as tong_tien')
             )
-            ->groupBy('kh.maKH', 'kh.tenKH', 'kh.diemTichLuy');
+            ->groupBy('kh.id', 'kh.tenKH', 'kh.diemTichLuy');
 
         // Lọc theo mã KH
         if ($request->filled('maKH')) {
-            $query->where('kh.maKH', 'like', '%' . $request->maKH . '%');
+            $query->where('kh.id', 'like', '%' . $request->maKH . '%');
         }
 
         // Lọc theo tên KH
@@ -40,43 +40,47 @@ class CustomerController extends Controller
         }
 
         // Lấy dữ liệu khách hàng từ DB
-        $customers = $query->get();
+        // Lấy dữ liệu khách hàng từ DB
+$customers = $query->get();
 
-        $magiamgias = DB::table('magiamgia')->get();
+// Lấy tất cả mã giảm giá
+$magiamgias = DB::table('magiamgia')->get();
 
-        $customers = $customers->map(function ($cus) use ($magiamgias) {
-            $tong = $cus->tong_tien ?? 0;
+// Áp dụng các xử lý lên danh sách khách hàng
+$customers = $customers->map(function ($cus) use ($magiamgias) {
+    $tong = $cus->tong_tien ?? 0;
+
+    // Lấy danh sách mã đã dùng từ bảng discounts_kh
+    $maGGDaDung = DB::table('discounts_kh')
+        ->where('maKH', $cus->id)
+        ->pluck('idMaGG')
+        ->toArray();
+
+    // Cấp độ
+    if ($tong >= 15000000) $cus->cap_do = 'Kim Cương';
+    elseif ($tong >= 7000000) $cus->cap_do = 'Vàng';
+    elseif ($tong >= 3000000) $cus->cap_do = 'Bạc';
+    elseif ($tong >= 500000) $cus->cap_do = 'Thành viên';
+    else $cus->cap_do = 'Chưa phân loại';
+
+    // Không cần lọc theo điều kiện đơn hàng tối thiểu nữa
+    $maGGsPhuHop = $magiamgias->filter(function ($mg) use ($maGGDaDung) {
+        return !in_array($mg->maGG, $maGGDaDung);
+    });
+
+    $cus->maGiamGiasPhuHop = $maGGsPhuHop;
+
+    // Mã tốt nhất
+    $maTotNhat = $maGGsPhuHop->sortByDesc('dieuKienDonHangToiThieu')->first();
+    $cus->maGiamGia = $maTotNhat->maGG ?? null;
+    $cus->moTaMaGiamGia = $maTotNhat->moTaMaGiamGia ?? 'Không có';
+
+    $cus->last_order_date = $cus->last_order_date ? \Carbon\Carbon::parse($cus->last_order_date) : null;
+
+    return $cus;
+});
+
         
-            // Lấy danh sách mã đã dùng của khách (từ dondathang)
-            $maGGDaDung = DB::table('dondathang')
-                ->where('maKH', $cus->maKH)
-                ->whereNotNull('idMaGG') // loại đơn không dùng mã
-                ->pluck('idMaGG')
-                ->toArray();
-        
-            // Cấp độ
-            if ($tong >= 15000000) $cus->cap_do = 'Kim Cương';
-            elseif ($tong >= 7000000) $cus->cap_do = 'Vàng';
-            elseif ($tong >= 3000000) $cus->cap_do = 'Bạc';
-            elseif ($tong >= 500000) $cus->cap_do = 'Thành viên';
-            else $cus->cap_do = 'Chưa phân loại';
-        
-            // Lọc mã đủ điều kiện và chưa dùng
-            $maGGsPhuHop = $magiamgias->filter(function ($mg) use ($tong, $maGGDaDung) {
-                return $tong >= $mg->dieuKienDonHangToiThieu && !in_array($mg->maGG, $maGGDaDung);
-            });
-        
-            $cus->maGiamGiasPhuHop = $maGGsPhuHop;
-        
-            // Mã tốt nhất
-            $maTotNhat = $maGGsPhuHop->sortByDesc('dieuKienDonHangToiThieu')->first();
-            $cus->maGiamGia = $maTotNhat->maGG ?? null;
-            $cus->moTaMaGiamGia = $maTotNhat->moTaMaGiamGia ?? 'Không có';
-        
-            $cus->last_order_date = $cus->last_order_date ? \Carbon\Carbon::parse($cus->last_order_date) : null;
-        
-            return $cus;
-        });
         
         
 
@@ -116,4 +120,3 @@ class CustomerController extends Controller
     }
 
 }
-

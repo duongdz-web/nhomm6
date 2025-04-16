@@ -160,7 +160,7 @@ class VnpayController extends Controller
                     session()->forget('total_payment');
                     session()->forget('selected_discount_id');
 
-                    return redirect()->route('dondathang.index')->with('success', 'Thanh toán và đặt hàng thành công!');
+                    return redirect()->route('home')->with('success', 'Thanh toán và đặt hàng thành công!');
                 } catch (\Exception $e) {
                     DB::rollBack();
                     return "Có lỗi khi lưu đơn hàng: " . $e->getMessage();

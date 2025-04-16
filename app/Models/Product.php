@@ -14,4 +14,9 @@ class Product extends Model
         'maSP', 'tenSP', 'moTa', 'soLuongTonKho',
         'giaNhap', 'giaBan', 'ngayNhap', 'donVi', 'maLoai', 'hinhanh'
     ];
+    public function danhgias()
+    {
+        return $this->hasMany(DanhGia::class, 'maSP', 'maSP');
+    }
+
 }

@@ -25,7 +25,7 @@
             </div>
 
             <div class="d-flex gap-2 mt-3 flex-wrap">
-                <input class="form-control w-auto" name="maKH" placeholder="Mã KH (ID)" value="{{ request('maKH') }}">
+                <input class="form-control w-auto" name="maKH" placeholder="Mã KH (ID)" value="{{ request('id') }}">
                 <input class="form-control w-auto" name="tenKH" placeholder="Tên khách hàng" value="{{ request('tenKH') }}">
                 <select name="level" class="form-control w-auto">
                     <option value="">Cấp độ</option>
@@ -71,7 +71,7 @@
             @foreach($customers as $cus)
                 <tr>
                     <th><input type="checkbox"></th>
-                    <td>{{ $cus->maKH }}</td>
+                    <td>{{ $cus->id }}</td>
                     <td>{{ $cus->tenKH }}</td>
                     <td>{{ $cus->cap_do }}</td>
                     <td>{{ $cus->donhangs_count }}</td>
